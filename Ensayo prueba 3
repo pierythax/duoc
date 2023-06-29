@@ -1,0 +1,118 @@
+entradas_vip = [""] * 10
+entradas_normales = [""] * 10
+entradas_economicas = [""] * 20
+asistentes = []
+ganancias_totales = 0
+
+def mostrar_menu():
+  print()
+  print("------MENU------")
+  print("1) Comprar Entradas")
+  print("2) Mostrar Ubicaciones Disponibles")
+  print("3) Ver Listado Asistentes")
+  print("4) Mostrar Ganancias")
+  print("5) Salir")
+
+def mostrar_ubicaciones_disponibles():
+  print("VIP: ", end="")
+  for repeticion in range(len(entradas_vip)):
+    if(entradas_vip[repeticion]==""):
+      print(repeticion+1, end=" ")
+    else:
+      print("X",end=" ")
+
+  print()
+
+  print("Normal: ", end="")
+  for repeticion in range(len(entradas_normales)):
+    if(entradas_normales[repeticion]==""):
+      print(repeticion+11, end=" ")
+    else:
+      print("X",end=" ")
+
+  print()
+
+  print("Económico: ", end="")
+  for repeticion in range(len(entradas_economicas)):
+    if(entradas_economicas[repeticion]==""):
+      print(repeticion+21, end=" ")
+    else:
+      print("X",end=" ")
+
+def comprar_entradas():
+  global ganancias_totales
+  cantidad = int(input("Ingrese la cantidad de entradas a comprar (1 o 2)"))
+  if(cantidad <= 0 or cantidad >= 3):
+    print("Error en la cantidad, debe ser 1 o 2")
+    return
+
+  print(cantidad)
+  for repeticion in range(cantidad):
+    print("Ubicaciones disponibles:")
+    mostrar_ubicaciones_disponibles()
+    ubicacion_valida = False
+    while not ubicacion_valida:
+      ubicacion = int(input("Seleccione una ubicacion: "))
+      if ubicacion >= 1 and ubicacion <= 40:
+        if ubicacion <= 10 and entradas_vip[ubicacion-1] == "":
+          entradas_vip[ubicacion-1] = ingresar_rut()
+          ubicacion_valida = True
+          ganancias_totales = ganancias_totales + 300000
+          asistentes.append(entradas_vip[ubicacion -1])
+
+        elif ubicacion <= 20 and entradas_normales[ubicacion-11] == "":
+          entradas_normales[ubicacion-11] = ingresar_rut()
+          ubicacion_valida = True
+          ganancias_totales = ganancias_totales + 100000
+          asistentes.append(entradas_normales[ubicacion -11])
+
+        elif ubicacion <= 40 and entradas_economicas[ubicacion-21] == "":
+          entradas_economicas[ubicacion-21] = ingresar_rut()
+          ubicacion_valida = True
+          ganancias_totales = ganancias_totales + 20000
+          asistentes.append(entradas_economicas[ubicacion -21])
+
+        if not ubicacion_valida:
+          print("Ubicacion no disponible, favor seleccione otra")
+    print("Operación realizada exitosamente")
+
+
+def ingresar_rut():
+  run_valido = False
+  while not run_valido:
+    run = input("Ingrese el RUN sin Digito Verificador ni guiones:")
+    if(len(run) == 7 or len(run) == 8):
+      run_valido = True
+
+  return run
+
+def mostrar_asistentes():
+  print("Listado de asistentes")
+  for asistente in asistentes:
+    print(asistente)
+def mostrar_ganancias():
+  print (ganancias_totales)
+
+def inicio():
+  try:
+    while True:
+
+      mostrar_menu()
+      opcion = int(input("Ingrese opcion: "))
+      if opcion == 1:
+        comprar_entradas()
+      elif opcion == 2:
+        mostrar_ubicaciones_disponibles()
+      elif opcion == 3:
+        mostrar_asistentes()
+      elif opcion == 4:
+        mostrar_ganancias()
+      elif opcion == 5:
+        print("Gracias por usar el Sofware")
+        break
+  except:
+    print("Ha ocurrido un error")
+
+
+
+inicio()
